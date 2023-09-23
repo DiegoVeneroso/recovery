@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
+import 'package:recovery_passaword_web/core/config/api_client.dart';
 import 'package:validatorless/validatorless.dart';
 
 import 'widgets/custom_button.dart';
@@ -38,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final _senhaEC = TextEditingController();
   final _confirmaEC = TextEditingController();
 
-  RxBool _visible = false.obs;
+  RxBool _visible = true.obs;
 
   @override
   void dispose() {
@@ -117,8 +118,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 String? secret =
                                     Uri.base.queryParameters['secret'];
 
-                                print(userId);
-                                print(secret);
+                                ApiClient.account.updateRecovery(
+                                    userId: userId.toString(),
+                                    secret: secret.toString(),
+                                    password: _senhaEC.text,
+                                    passwordAgain: _senhaEC.text);
+
+                                // print(userId);
+                                // print(secret);
                                 _visible.value = false;
                               }
                             },
